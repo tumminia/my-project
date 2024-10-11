@@ -11,14 +11,9 @@ Rails.application.routes.draw do
 
 
   # Definisco la rotta per le pagine *.html.erb del controller Sikuel
-  get "page", to: "project#page"
-  get "stock", to: "project#stock"
-  get "table", to: "project#table"
-
-  get "demo", to: "project#index"
-  get "/demo/page", to: "project#page"
-  get "demo/stock", to: "project#stock"
-  get "demo/table", to: "project#table"
+  get "page", to: "file#page"
+  get "stock", to: "file#stock"
+  get "table", to: "file#table"
 
   # Imposto la pagina di default della mia app
   root "project#index"
