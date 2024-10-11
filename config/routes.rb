@@ -9,6 +9,17 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+
+  # Definisco la rotta per le pagine *.html.erb del controller Sikuel
+  get "page", to: "project#page"
+  get "stock", to: "project#stock"
+  get "table", to: "project#table"
+
+  get "demo", to: "project#index"
+  get "/demo/page", to: "project#page"
+  get "demo/stock", to: "project#stock"
+  get "demo/table", to: "project#table"
+
+  # Imposto la pagina di default della mia app
+  root "project#index"
 end
