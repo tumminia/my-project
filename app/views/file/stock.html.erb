@@ -1,0 +1,25 @@
+
+<nav id="giacenza">
+<table>
+<thead>    
+<tr>
+<th colspan="3">Giacenza in frigorifero</th>
+</tr>
+<tr>
+<th>Ingredienti</th>
+<th>Quantità (Kg)</th>
+<th>Giacenza</th>
+</tr>
+</thead>
+
+<tbody ng-repeat='i in item'>
+<tr>
+<td>{{i.ingrediente}}</td>
+<td>{{i.quantita}}</td>
+<td>{{i.giacenza}}</td>
+</tr>
+</tbody>
+</table>
+
+</nav>
+

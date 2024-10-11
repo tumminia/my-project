@@ -1,0 +1,45 @@
+
+<nav id="disponibile">
+<h2>Verifica la disponibilità di un tavolo</h2>
+<h3>Selezionado:</h3>
+<form>
+<div class="form-floating mb-3">
+<select class="form-control" id="tab" name="tab" required>
+<option value="4">Tavolo da 4 posti</option>
+<option value="6">Tavolo da 6 posti</option>
+<option value="12">Tavolo da 12 posti</option>
+</select>
+<label for="tab">Scelgi Tavolo</label>
+</div>
+
+<div class="form-floating mb-3">
+<input type="date" class="form-control" id="giorno" name="giorno" value="2024-10-09" required>
+<label for="giorno">Scelgi il giorno</label>
+</div>
+
+<div class="form-floating mb-3">
+<select class="form-control" id="orario" name="orario" required>
+<option value="12:00">12:00</option>
+<option value="13:00">13:00</option>
+<option value="14:00">14:00</option>
+<option value="15:00">15:00</option>
+<option value="16:00">16:00</option>
+<option value="17:00">17:00</option>
+<option value="18:00">19:00</option>
+<option value="19:00">19:00</option>
+<option value="20:00">20:00</option>
+<option value="21:00">21:00</option>
+<option value="22:00">22:00</option>
+</select>
+<label for="orario">Scelgi l'orario</label>
+</div>
+
+<div class="mb-3">
+<button type="submit" class="btn btn-outline-success" id="disponibile-button">Invio</button>
+<button type="reset" class="btn btn-outline-danger">Reset</button>
+</div>
+</form>
+
+</nav>
+
+<article id="messaggio"></article>
