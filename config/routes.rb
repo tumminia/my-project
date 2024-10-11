@@ -16,5 +16,5 @@ Rails.application.routes.draw do
   get "table", to: "file#table"
 
   # Imposto la pagina di default della mia app
-  root "project#index"
+  root "file#index"
 end
