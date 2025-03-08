@@ -1,10 +1,9 @@
-require "pg"
+require 'pg'
+require 'json'
 
 class Run
-  def initialize(word, uno, due)
+  def initialize(word)
     @word = word.capitalize
-    @uno = uno.capitalize
-    @due = due.capitalize
   end
 
   def print
@@ -13,51 +12,74 @@ class Run
 
   def giacenza
     conn = PG.connect(
-      dbname: "ristorante",
-      user: "postgres",
-      password: "password",
-      host: "localhost",
+      dbname: 'ristorante',
+      user: 'postgres',
+      password: 'password',
+      host: 'localhost',
       port: 5432
     )
+    File.write("giacenza.json","")
 
-    File.write("giacenza.json", "")
+    i = 0
 
-    File.open("giacenza.json", "a") do |file|
-      file.puts "["
-      result = conn.exec("#{@uno}")
-      result.each do |row|
-        file.puts '{"ingrediente":"' + row["ingrediente"] + '","quantita":' + row["quantita"] + "," + '"giacenza":"' + row["giacenza"] + '"},'
+    File.open('giacenza.json', 'a') do |file|
+      result = conn.exec_params("SELECT * FROM frigorifero")
+      data = "["
+      
+      result.each do |row|      
+         data +=JSON.generate(row)
+         
+         if i<result.count-1
+          data += ","
+         end
+
+         i+=1
       end
-      file.puts "]"
-    end
 
+      data += "]"
+      file.puts data
+    end
+    
     conn.close
  end
 
  def tavolo
   conn = PG.connect(
-    dbname: "ristorante",
-    user: "postgres",
-    password: "gattoTopo@89",
-    host: "localhost",
+    dbname: 'ristorante',
+    user: 'postgres',
+    password: 'password',
+    host: 'localhost',
     port: 5432
   )
-  File.write("tavolo.json", "")
+  File.write("tavolo.json","")
 
-  File.open("tavolo.json", "a") do |file|
-    file.puts "["
-    result = conn.exec("#{@due}")
-    result.each do |row|
-      file.puts '{"tavolo":' + row["tavolo"] + ',"giorno":"' + row["giorno"] +'",' + '"orario":"' + row["orario"] + '","occupati":'+ row["occupati"]  + "},"
+  i = 0
+
+  File.open('tavolo.json', 'a') do |file|
+    result = conn.exec_params(
+      'SELECT tavolo,giorno,orario,COUNT(recapito) AS occupati FROM prenotazione GROUP BY tavolo,giorno,orario ORDER BY giorno'
+    )
+    data = "["
+
+    result.each do |row|      
+      data += JSON.generate(row)
+
+      if i<result.count-1
+        data += ","
+      end
+
+      i +=1
     end
-    file.puts "]"
-  end
 
+    data += "]"
+    file.puts data
+  end
+  
   conn.close
  end
 end
 
-ptr = Run.new("Hello", "SELECT * FROM frigorifero;", "SELECT tavolo,giorno,orario,COUNT(recapito) AS occupati FROM prenotazione GROUP BY tavolo,giorno,orario ORDER BY giorno")
+ptr = Run.new('Hello')
 ptr.print
 ptr.giacenza
 ptr.tavolo
