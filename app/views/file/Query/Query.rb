@@ -1,40 +1,70 @@
 require "pg"
+require "json"
 
 class Query
-    def initialize(query)
-      @query = query.capitalize
-    end
-
-    def xml
-      conn = PG.connect(
+  def initialize(ingrediente)
+    @ingrediente = ingrediente.capitalize
+  end
+  
+  def csv
+  conn = PG.connect(
     dbname: "ristorante",
     user: "postgres",
     password: "password",
     host: "localhost",
-    port: 5432)
+    port: 5432
+  )
 
+  File.write("giacenza.csv","")
+  File.open("giacenza.csv","a") do |file|
+    file.puts 'ingrediente,quantita,giacenza'
+    result = conn.exec_params("SELECT * FROM frigorifero")
+    result.each do |row|
+      file.puts row['ingrediente'] + "," + row['quantita'] + "," + row['giacenza']
+    end
+  end
 
+  conn.close
+ end
 
+ def queryDatabase
+  conn = PG.connect(
+    dbname: 'ristorante',
+    user: 'postgres',
+    password: 'password',
+    host: 'localhost',
+    port: 5432
+  )
 
-    result = conn.exec("#{@query}")
+  ptr = @ingrediente + ".json"
+  File.write(ptr,"")
+  File.open(ptr,"a") do |file|
+    result = conn.exec_params("SELECT * FROM frigorifero WHERE ingrediente IN ($1)",[@ingrediente.downcase])
+    data = "["
+    i=0
 
-    File.open("frigorifero.xml", "a") do |file|
-      file.puts '<?xml version="1.0" encoding="UTF-8"?>'
-      file.puts "<rows>"
-      result.each do |row|
-        file.puts "<row>"
-        file.puts '<ingrediente name="ingrediente">' + row["ingrediente"] + "</ingrediente>"
-        file.puts '<quantita name="quantita">' + row["quantita"] + "</quantita>"
-        file.puts '<giacenza name="giacenza">' + row["giacenza"] + "</giacenza>"
-        file.puts "</row>"
+    result.each do |row|
+      data += JSON.generate(row)
+      
+      if i<result.count-1
+        data += "," 
       end
-      file.puts "</rows>"
+
+      i+=1;
     end
 
+    data += "]"
 
+    puts data
+    file.puts data
     conn.close
-    end
+  end
+ end
 end
 
-object = Query.new("SELECT * FROM frigorifero")
-object.xml
+print "Inserisci ingrediente:"
+str = gets.chomp
+
+ptr = Query.new(str)
+ptr.csv
+ptr.queryDatabase
