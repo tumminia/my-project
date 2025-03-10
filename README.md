@@ -1,24 +1,35 @@
-# README
+# MY-PROJECT
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Tecnoligia usata
+**framewok:** Ruby on Rails 
+**Linguaggio di programmazione:** Ruby
 
-Things you may want to cover:
+## Descrizione
+**Obiettivi**
+1. Query ad un database;
+2. Sicurezza.
 
-* Ruby version
+**Query ad un database**
+È un semplice progetto, che ha come obiettivo fare una query ad un database SQLite3
 
-* System dependencies
+**Sicurezza**
+Contromisure contro le vulnerabilità:
+1. SQL Injection;
 
-* Configuration
+## Used engineering technology
+**framewok:** Ruby on Rails 
+**Programming language:** Ruby
 
-* Database creation
+## Description
+***Objectives**
+1. Query a database;
+2. Safety.
 
-* Database initialization
+**Query to a database**
+It is a simple project, which aims to query a SQLite3 database
 
-* How to run the test suite
+***Security**
+Countermeasures against vulnerabilities:
+1. SQL Injection;
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+git clone https://github.com/tumminia/my-project
