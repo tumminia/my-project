@@ -10,10 +10,14 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
 
-  # Definisco la rotta per le pagine *.html.erb del controller File
+  # Definisco la rotta per le pagine *.html.erb del controller Sikuel
   get "page", to: "file#page"
   get "stock", to: "file#stock"
   get "table", to: "file#table"
+  get "sqlite3", to: "file#sqlite3"
+
+  # URI file json
+  post "json/piatti", to: "file#piatti", defaults: { format: "json" }
 
   # Imposto la pagina di default della mia app
   root "file#index"
