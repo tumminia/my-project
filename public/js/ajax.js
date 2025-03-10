@@ -26,23 +26,57 @@ $(function(){
 				console.log("Errore : "+error);
 			},
 			success:(data)=>{
-				let tag = "<h4>Seleziona i piatti che preferisci,"
+				let tag = "<h4>Seleziona i piatti che preferisci:";
+				let antipasti = "<h5>Antipasti:</h5>";
+				let primo = "<h5>Primo:</h5>";
+				let secondo = "<h5>Secondo:</h5>";
+				let dolce = "<h5>Dolce:</h5>";
+
 				+" puoi fare massimo 10 ordini alla volta. </h4>";
 				var word = "";
-				$.each(data,(item,i)=>{
-					word = "'"+i.pasto+"'";
-					tag +=
+				const portata = (x)=> {
+					word = "'"+ x +"'";
+					
+					str =
 					'<div class="box" onclick="object.carrello('+word+');">' +
 					'<div class="img">' +
 					'<img src="/img/pasta.webp">' +
 					'</div>' +
 					'<div>' +
-					i.pasto +
+					x +
 					'</div>' +
-					'</div>';
+					'</div>'
+					;
+
+					return str;
+				}
+
+				$.each(data,(item,i)=>{
+					categoria = i.categoria;
+					switch(categoria) {
+						case "Antipasti":
+						antipasti += portata(i.nome);
+						break;
+
+						case "Primo":
+						primo  += portata(i.nome);
+						break;
+
+						case "Secondo":
+						secondo  += portata(i.nome);
+						break;
+
+						default:
+						dolce  += portata(i.nome);
+						break;
+					}
 				});
 
-				$("#piatti").html(tag);
+				$("#piatti").append(tag);
+				$("#piatti").append(antipasti);
+				$("#piatti").append(primo);
+				$("#piatti").append(secondo);
+				$("#piatti").append(dolce);
 			}
 		});
 	});
