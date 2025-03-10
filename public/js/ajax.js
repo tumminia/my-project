@@ -15,10 +15,10 @@ $(function() {
 $(function(){
 	$("#piatti").fadeIn(()=>{
 		$.ajax({
-			type:"GET",
-			method:"GET",
+			type:"POST",
+			method:"POST",
 			dataType:"json",
-			url:"/json/piatti.json",
+			url:"/json/piatti",
 			data:{
 				token:$('meta[name="csrf-token"]').attr('content')
 			},
