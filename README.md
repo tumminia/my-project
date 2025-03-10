@@ -1,8 +1,10 @@
 # MY-PROJECT
 
 ## Tecnoligia usata
-**framewok:** Ruby on Rails 
-**Linguaggio di programmazione:** Ruby
+**framewok:** 
+Ruby on Rails 
+**Linguaggio di programmazione:**
+Ruby
 
 ## Descrizione
 **Obiettivi**
