@@ -1,7 +1,7 @@
 # MY-PROJECT
 
 ## Tecnoligia usata
-### Framewok: 
+### Framework: 
 Ruby on Rails
 
 ### Linguaggio di programmazione:
@@ -20,13 +20,13 @@ Contromisure contro le vulnerabilità:
 1. SQL Injection;
 
 ## Used engineering technology
-### framewok:
+### Framework:
 Ruby on Rails 
 ### Programming language:
 Ruby
 
 ## Description
-***Objectives**
+**Objectives**
 1. Query a database;
 2. Safety.
 
