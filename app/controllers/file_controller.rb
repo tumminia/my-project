@@ -42,12 +42,12 @@ class FileController < ApplicationController
     render json: @tavolo
   end
 
-  def prenota
+  def mex
     db_path = Rails.root.join("db", "giacenza.db").to_s
     db = SQLite3::Database.new(db_path)
     db.results_as_hash = true
 
-    token = params[:token]
+    # token = params[:token]
     nome = params[:nome]
     numero = params[:numero]
     posti = params[:posti] || 2
@@ -62,8 +62,9 @@ class FileController < ApplicationController
     @messaggio = [ { "mex"=>"tavolo prenotato a nome: #{nome}" } ]
     db.close
 
-    redirect_to "/mex"
-    # render json: @messaggio
+    # puts token
+    # redirect_to "/mex"
+    render json: @messaggio
   end
 
   def name
