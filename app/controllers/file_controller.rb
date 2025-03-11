@@ -24,4 +24,50 @@ class FileController < ApplicationController
     db.close
     render json: @piatti
   end
+
+  def disponibile
+    db_path = Rails.root.join("db", "giacenza.db").to_s
+    db = SQLite3::Database.new(db_path)
+    db.results_as_hash = true
+
+    posti = params[:posti] || 2
+    giorno = params[:giorno] || "2025-03-11"
+    orario = params[:orario] || "12:00"
+
+    @tavolo = db.execute("SELECT posti,giorno,orario,COUNT(posti) AS prenotati FROM tavolo
+    WHERE posti=? AND giorno=? AND orario=?",
+    [ posti, giorno, orario ])
+
+    db.close
+    render json: @tavolo
+  end
+
+  def prenota
+    db_path = Rails.root.join("db", "giacenza.db").to_s
+    db = SQLite3::Database.new(db_path)
+    db.results_as_hash = true
+
+    token = params[:token]
+    nome = params[:nome]
+    numero = params[:numero]
+    posti = params[:posti] || 2
+    giorno = params[:giorno] || "2025-03-11"
+    orario = params[:orario] || "12:00"
+
+    @tavolo = db.execute("INSERT INTO tavolo (nome, numero, posti, giorno, orario)
+     VALUES
+     (?,?,?,?,?)",
+    [ nome, numero, posti, giorno, orario ])
+
+    @messaggio = [ { "mex"=>"tavolo prenotato a nome: #{nome}" } ]
+    db.close
+
+    redirect_to "/mex"
+    # render json: @messaggio
+  end
+
+  def name
+    name = params[:name] || "Guest"
+    render plain: "Hello, #{name}"
+  end
 end
