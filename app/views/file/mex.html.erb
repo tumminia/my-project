@@ -1,0 +1,10 @@
+
+<nav style="text-align:center;margin:6%">
+  <% if @messaggio.present? %>
+    <% @messaggio.each do |row|%>>
+    <h1><%= row['mex'] %></h1>
+    <% end %>
+  <% else %>
+    <h1>Tavolo Prenotato</h1>
+  <% end %>
+</nav>
