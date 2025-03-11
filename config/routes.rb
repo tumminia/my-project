@@ -15,9 +15,15 @@ Rails.application.routes.draw do
   get "stock", to: "file#stock"
   get "table", to: "file#table"
   get "sqlite3", to: "file#sqlite3"
+  get "mex", to: "file#mex"
 
   # URI file json
   post "json/piatti", to: "file#piatti", defaults: { format: "json" }
+  post "json/tavolo", to: "file#disponibile", defaults: { format: "json" }
+  get "json/prenota", to: "file#prenota"
+
+  # test
+  get "hello/name", to: "file#name"
 
   # Imposto la pagina di default della mia app
   root "file#index"
