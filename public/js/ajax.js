@@ -117,33 +117,79 @@ app.controller('myCtrl',['$scope','$interval','$cookies','$http',function($scope
 
 $(function(){
 	$("#disponibile-button").on("click",()=>{
+		let posti = $("#tab").val();
+		let giorno =  $("#giorno").val();
+		let orario = $("#orario").val();
+
 		$.ajax({
-			type:"GET",
-			method:"GET",
+			type:"POST",
+			method:"POST",
 			dataType:"json",
-			url:"/json/tavolo.json",
+			url:"/json/tavolo",
 			data:{
-				token:$('meta[name="csrf-token"]').attr('content')
+				token:$('meta[name="csrf-token"]').attr('content'),
+				posti:posti,
+				giorno:giorno,
+				orario:orario
 			},
 			error:(error)=>{
 				console.log("Errore : "+error);
 			},
 			success:(data)=>{
-				let tavolo = $("#tab").val();
-				let giorno =  $("#giorno").val();
-				let orario = $("#orario").val();
+				
 				let liberi = 3;
 
 				$.each(data,(item,i)=>{
-					if(parseInt(tavolo)===parseInt(i.tavolo) && giorno===i.giorno && orario===i.orario) {
-						liberi = liberi - parseInt(i.occupati);
+					if(parseInt(posti)===parseInt(i.posti) && giorno===i.giorno && orario===i.orario) {
+						liberi = liberi - parseInt(i.prenotati);
 					}
 				});
 
-				tag = "Tavoli da " + tavolo +" posti sono disponibili " + liberi + " tavoli per il giorno " + giorno + " e per l'orario " + orario;
+				tag = "Tavoli da " + posti +" posti sono disponibili " + liberi + " tavoli per il giorno " + giorno + " e per l'orario " + orario;
 				$("#messaggio").append("<h4>"+tag+"</h4>");
 				liberi = 3;
 			}
 		});
 	});
+});
+
+$(function(){
+	$("#btn").on("click",()=>{
+		let nome = $("#name").val();
+		let numero = $("#tel").val();
+		let posti = $("#num").val();
+		let giorno =  $("#data").val();
+		let orario = $("#ora").val();
+
+		$.ajax({
+			type:"POST",
+			method:"POST",
+			dataType:"json",
+			url:"/json/prenota",
+			data:{
+				token:$('meta[name="csrf-token"]').attr('content'),
+				nome:nome,
+				numero:numero,
+				posti:posti,
+				giorno:giorno,
+				orario:orario
+			},
+			error:(error)=>{
+				console.log("Errore : "+error);
+			},
+			success:(data)=>{
+				$.each(data,(item,i)=>{
+					$("#prenota_tavolo").find('form').trigger("reset");
+					$("#messageContainer").css({"display":"block"})
+					$("#message").html("<h3 style='text-align:center;'>" + i.mex + "</h3>");
+				});
+			}
+		});
+	});
+});
+
+$(function(){
+	$("#close").on("click",()=>{
+		$("#messageContainer").css({"display":"none"})
+	})
 });
