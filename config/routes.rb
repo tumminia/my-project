@@ -16,11 +16,12 @@ Rails.application.routes.draw do
   get "table", to: "file#table"
   get "sqlite3", to: "file#sqlite3"
 
-  # URI file json
+  # URI file json, it queries the database
   post "json/piatti", to: "file#piatti", defaults: { format: "json" }
   post "json/tavolo", to: "file#disponibile", defaults: { format: "json" }
+  # It Inserts data on the database
   post "json/prenota", to: "file#mex"
-
+  
   # test
   get "hello/name", to: "file#name"
 
