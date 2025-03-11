@@ -42,7 +42,7 @@
 
 <div class="modal fade" id="prenota_tavolo" tabindex="-1" aria-labelledby="chat" aria-hidden="true">
 <div class="modal-dialog">
-<form method="post">
+<form action="/json/prenota" method="get">
 <div class="modal-content">
 <div class="modal-header">
 <h1 class="modal-title fs-5">Inserisci le informazione</h1>
@@ -51,29 +51,37 @@
 <div class="modal-body">
 <div>
 <div class="mb-3">
-    
-<div class="form-floating mb-3">
-<input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required>
-<label for="nome">Nome</label>
+
+<div>
+<!-- <input type="hidden" value="<%= form_authenticity_token %>" name="token" /> -->
+<input type="hidden" value="<%= cookies[:'XSRF-TOKEN'] %>" name="token" />
 </div>
-    
+
+
+<div class="form-floating mb-3">
+<input type="text" class="form-control" id="name" name="nome" placeholder="Nome" required>
+<label for="name">Nome</label>
+</div>
+
+<!--    
 <div class="form-floating mb-3">
 <input type="text" class="form-control" id="cogn" name="cogn"  placeholder="Cognome" required>
 <label for="cogn">Cognome</label>
 </div>
-    
+-->
+
 <div class="form-floating mb-3">    
-<input type="tel" class="form-control" id="tel" name="tel" placeholder="Recapito telefonico" required>
+<input type="tel" class="form-control" id="tel" name="numeo" placeholder="Recapito telefonico" required>
 <label for="tel">Recapito telefonico</label>
 </div>
     
 <div class="form-floating mb-3">
-<input type="date" class="form-control" id="data" name="data" required>
+<input type="date" class="form-control" id="data" name="giorno" value="<%= Date.today %>" required>
 <label for="data">Scelgi il giorno</label>
 </div>
 
 <div class="form-floating mb-3">
-<select class="form-control" id="ora" name="ora" required>
+<select class="form-control" id="ora" name="orario" required>
 <option value="12:00">12:00</option>
 <option value="13:00">13:00</option>
 <option value="14:00">14:00</option>
@@ -91,7 +99,8 @@
 </div>
 
 <div class="form-floating mb-3">
-<select class="form-control" id="num" name="num" required>
+<select class="form-control" id="num" name="posti" required>
+<option value="2">Tavolo da 2 posti</option>
 <option value="4">Tavolo da 4 posti</option>
 <option value="6">Tavolo da 6 posti</option>
 <option value="12">Tavolo da 12 posti</option>
