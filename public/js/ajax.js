@@ -187,9 +187,3 @@ $(function(){
 		});
 	});
 });
-
-$(function(){
-	$("#close").on("click",()=>{
-		$("#messageContainer").css({"display":"none"})
-	})
-});
