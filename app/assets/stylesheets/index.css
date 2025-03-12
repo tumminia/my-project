@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body{
     font-family:'Courier New', Courier, monospace;
     font-size:16px;
@@ -65,8 +66,7 @@ header{
 #link a{
     text-decoration:none;
     color:#FFF5EE;
-    
-    margin:5px;
+    padding:20px;
 }
 
 #link div{
@@ -276,4 +276,60 @@ input[type="date"]:focus,
     text-align:center;
     margin-top:40px;
     margin-bottom:40px;
+}
+
+/* Message Container */ 
+#messageContainer{
+    display:none;
+    overflow-x:scroll;
+    left:15%;
+    right:15%;
+    top:20%;
+    bottom:10%;
+    width:70%;
+    height:300px;
+    background:#FFF5EE;
+    position:fixed;
+    border-radius:5px;
+    z-index:3;
+    box-shadow:0 0 10px 10px rgba(41, 49, 51, 0.1);
+}
+
+#messageContainer div{
+    margin:0 auto;
+    text-align:center;
+}
+
+#messageContainer p{
+    text-align:left;
+    padding-left:30px;
+}
+
+#messageCookie{
+    background:#f9f7f2;
+    color:#293133;
+    border-radius:5px;
+    margin:20px;
+}
+
+#messageContainer h4{
+    margin-top:10%;
+}
+
+#messageContainer button{
+    position:absolute;
+    background:#f9f7f2;
+    color:#293133;
+    font-size:25px;
+    top:5px;
+    right:5px;
+    border-style:none;
+}
+
+#messageContainer button:hover{
+    color:#E52B50;
+}
+
+#message{
+    padding:30px;
 }
