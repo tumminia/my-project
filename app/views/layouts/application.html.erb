@@ -24,36 +24,15 @@
 <%= stylesheet_link_tag 'index.min', media: 'all' %>
 <script src="/js/ajax.js" defer></script>
 <script src="/js/index.min.js" defer></script>
+<script type="text/babel" src="/js/react.js"></script>
 <%= yield :head %>
-
-<style>
-#messageContainer{display:none;
-overflow-x:scroll;
-left:15%;right:15%;top:20%;bottom:10%;width:70%;height:300px;
-background:#FFF5EE;position:fixed;border-radius:5px;z-index:3;
-box-shadow:0 0 10px 10px rgba(41, 49, 51, 0.1);}
-#messageContainer div{margin:0 auto;text-align:center;}
-#messageContainer p{text-align:left;padding-left:30px;}
-#messageCookie{background:#f9f7f2;color:#293133;border-radius:5px;margin:20px;}
-#messageContainer h4{margin-top:10%;}
-#messageContainer button{position:absolute;background:#f9f7f2;color:#293133;font-size:25px;top:5px;right:5px;border-style:none;}
-#messageContainer button:hover{color:#E52B50;}
-#message{padding:30px;}
-</style>
 </head>
 <body ng-app="myApp" ng-controller="myCtrl">
 <header id="header">
 <h1>Ristorante da Luigi</h1>
 </header>
 
-<div id="link">
-<div title="Home page"><a href="/">Home</a></div>
-<div title="Prenotazione dal tavolo"><a href="/page">Ordina</a></div>
-<div title="Giacenza frigorifero"><a href="/stock">Giacenza</a></div>
-<div title="Giacenza frigorifero"><a href="/sqlite3">SQLite3</a></div>
-<div title="Tavoli disponibili"><a href="/table">Tavoli</a></div>
-<div title="Prenota un tavolo"  data-bs-toggle='modal' data-bs-target='#prenota_tavolo' data-bs-whatever='@mdo'>Prenota</div>     
-</div>
+<div id="link"></div>
 
 <div class="modal fade" id="prenota_tavolo" tabindex="-1" aria-labelledby="chat" aria-hidden="true">
 <div class="modal-dialog">
@@ -71,13 +50,6 @@ box-shadow:0 0 10px 10px rgba(41, 49, 51, 0.1);}
 <input type="text" class="form-control" id="name" name="nome" placeholder="Nome" required>
 <label for="name">Nome</label>
 </div>
-
-<!--    
-<div class="form-floating mb-3">
-<input type="text" class="form-control" id="cogn" name="cogn"  placeholder="Cognome" required>
-<label for="cogn">Cognome</label>
-</div>
--->
 
 <div class="form-floating mb-3">    
 <input type="tel" class="form-control" id="tel" name="numero" placeholder="Recapito telefonico" required>
@@ -129,48 +101,11 @@ box-shadow:0 0 10px 10px rgba(41, 49, 51, 0.1);}
 </div>
 </div>
 
-<div id="messageContainer">
-<div>
-<button id="close">
-<i class="bi bi-x-circle-fill"></i>
-</button>
-</div>
-<div id="message"></div>
-</div>
+<div id="messageContainer"></div>
 
 <%= yield %>
 
-<footer>
-<div>
-<h4>Informazioni:</h4>
-<ol>
-<li>
-<li>Via Roma 001, CAP 20100 Milano</li>
-<li>Lunedì - Venerdì: 12:00 - 23:00</li>
-<li>Sabato: 13:00 - 00:00</li>
-<li>Domenica: Chiuso</li>
-</ol>
-</div>
-
-<div>
-<h4>Contatti:</h4>
-<ol>
-<li><a href="#"><i class="bi bi-telephone"></i> +39 0123456789</a></li>
-<li><a href="#"><i class="bi bi-whatsapp"></i> +39 0987654321</a></li> 
-<li><a href="#"><i class="bi bi-envelope-at"></i> luigi@food.it</a></li>   
-</ol>
-</div>
-
-<div>
-<h4>Social:</h4>
-<ol>
-<li><a href="#"><i class="bi bi-facebook"></i> Facebook</a></li>
-<li><a href="#"><i class="bi bi-instagram"></i> Instagram</a></li>
-<li><a href="#"><i class="bi bi-linkedin"></i> Linkedin</a></li>
-<li><a href="#"><i class="bi bi-tiktok"></i> Tiktok</a></li>
-</ol>
-</div>
-</footer>
+<footer id="footer"></footer>
 
 </body>
 </html>
