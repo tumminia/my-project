@@ -1,70 +1,190 @@
-class Index extends React.Component {
-    menu() {
-        return (
-        <>
-        <div title="Home page"><a href="/">Home</a></div>
-        <div title="Prenotazione dal tavolo"><a href="/page">Ordina</a></div>
-        <div title="Giacenza frigorifero"><a href="/sqlite3">Giacenza</a></div>
-        <div title="Tavoli disponibili"><a href="/table">Tavoli</a></div>
-        <div title="Prenota un tavolo"  data-bs-toggle='modal' data-bs-target='#prenota_tavolo' data-bs-whatever='@mdo'>Prenota</div>  
-        </>
-        );
+const time = new Date();
+const threeDays = 3*24*60*60*1000;
+time.setTime(time.getTime() + (threeDays));
+let expires = "expires="+time.toUTCString();
+document.cookie = "XSRF-TOKEN="+$('meta[name="csrf-token"]').attr('content')+";"+expires+";path=/;";
+
+$(function() {
+	$.ajaxSetup({
+	  headers: {
+		'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+	  }
+	});
+});
+
+$(function(){
+	$("#piatti").fadeIn(()=>{
+		$.ajax({
+			type:"POST",
+			method:"POST",
+			dataType:"json",
+			url:"/json/piatti",
+			data:{
+				token:$('meta[name="csrf-token"]').attr('content')
+			},
+			error:(error)=>{
+				console.log("Errore : "+error);
+			},
+			success:(data)=>{
+				let tag = "<h4>Seleziona i piatti che preferisci:";
+				let antipasti = "<h5>Antipasti:</h5>";
+				let primo = "<h5>Primo:</h5>";
+				let secondo = "<h5>Secondo:</h5>";
+				let dolce = "<h5>Dolce:</h5>";
+
+				+" puoi fare massimo 10 ordini alla volta. </h4>";
+				var word = "";
+				const portata = (x)=> {
+					word = "'"+ x +"'";
+					
+					str =
+					'<div class="box" onclick="object.carrello('+word+');">' +
+					'<div class="img">' +
+					'<img src="/img/pasta.webp">' +
+					'</div>' +
+					'<div>' +
+					x +
+					'</div>' +
+					'</div>'
+					;
+
+					return str;
+				}
+
+				$.each(data,(item,i)=>{
+					categoria = i.categoria;
+					switch(categoria) {
+						case "Antipasti":
+						antipasti += portata(i.nome);
+						break;
+
+						case "Primo":
+						primo  += portata(i.nome);
+						break;
+
+						case "Secondo":
+						secondo  += portata(i.nome);
+						break;
+
+						default:
+						dolce  += portata(i.nome);
+						break;
+					}
+				});
+
+				$("#piatti").append(tag);
+				$("#piatti").append(antipasti);
+				$("#piatti").append(primo);
+				$("#piatti").append(secondo);
+				$("#piatti").append(dolce);
+			}
+		});
+	});
+});
+
+var app = angular.module('myApp',['ngAnimate','ngCookies']);
+let authToken = "";
+app.config(function($httpProvider,$cookiesProvider) {
+	authToken = $('meta[name="csrf-token"]').attr('content');
+	$httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken;
+	
+	life = $cookiesProvider.defaults = {
+		  expires : expires,
+	  };
+});
+
+app.controller('myCtrl',['$scope','$interval','$cookies','$http',function($scope,$interval,$cookies,$http){
+    if(location.pathname=='/stock') {
+	    $scope.tab = {'display' : 'inline-block'};
+	    const req = {
+		    method : 'GET',
+		    url : '/json/giacenza.json',
+		    headers : {'content-type' : 'application/json'},
+		    data : {token : authToken}
+		};
+		
+		$http(req).then(function(response){
+			$scope.item = response.data;
+			console.log("Http Status: "+response.status);
+			}).catch(function(response) {
+			console.log(
+				"Http Status: "+response.status
+				+ "Status of the XMLHttpRequest: "+response.statusText
+			);
+		});
     }
+}]);
 
-    messageContainer(){
-        return(
-        <>
-        <div>
-        <button id="close">
-        <i className="bi bi-x-circle-fill"></i>
-        </button>
-        </div>
-        <div id="message"></div>
-        </>
-        );
-    }
+$(function(){
+	$("#disponibile-button").on("click",()=>{
+		let posti = $("#tab").val();
+		let giorno =  $("#giorno").val();
+		let orario = $("#orario").val();
 
-    footer() {
-        return(
-        <>
-        <div>
-        <h4>Informazioni:</h4>
-        <ol>
-        <li>Via Roma 001, CAP 20100 Milano</li>
-        <li>Lunedì - Venerdì: 12:00 - 23:00</li>
-        <li>Sabato: 13:00 - 00:00</li>
-        <li>Domenica: Chiuso</li>
-        </ol>
-        </div>
-        
-        <div>
-        <h4>Contatti:</h4>
-        <ol>
-        <li><a href="#"><i className="bi bi-telephone"></i> +39 0123456789</a></li>
-        <li><a href="#"><i className="bi bi-whatsapp"></i> +39 0987654321</a></li> 
-        <li><a href="#"><i className="bi bi-envelope-at"></i> luigi@food.it</a></li>   
-        </ol>
-        </div>
-        
-        <div>
-        <h4>Social:</h4>
-        <ol>
-        <li><a href="#"><i className="bi bi-facebook"></i> Facebook</a></li>
-        <li><a href="#"><i className="bi bi-instagram"></i> Instagram</a></li>
-        <li><a href="#"><i className="bi bi-linkedin"></i> Linkedin</a></li>
-        <li><a href="#"><i className="bi bi-tiktok"></i> Tiktok</a></li>
-        </ol>
-        </div>
-        </>
-        );
-    }
-}
+		$.ajax({
+			type:"POST",
+			method:"POST",
+			dataType:"json",
+			url:"/json/tavolo",
+			data:{
+				token:$('meta[name="csrf-token"]').attr('content'),
+				posti:posti,
+				giorno:giorno,
+				orario:orario
+			},
+			error:(error)=>{
+				console.log("Errore : "+error);
+			},
+			success:(data)=>{
+				
+				let liberi = 3;
 
-const root = (id)=>{
-    return ReactDOM.createRoot(document.getElementById(id));
-}
+				$.each(data,(item,i)=>{
+					if(parseInt(posti)===parseInt(i.posti) && giorno===i.giorno && orario===i.orario) {
+						liberi = liberi - parseInt(i.prenotati);
+					}
+				});
 
-const index = new Index()
-root("link").render(<index.menu/>);
-root("messageContainer").render(<index.messageContainer/>);
-root("footer").render(<index.footer/>);
+				tag = "Tavoli da " + posti +" posti sono disponibili " + liberi + " tavoli per il giorno " + giorno + " e per l'orario " + orario;
+				$("#messaggio").append("<h4>"+tag+"</h4>");
+				liberi = 3;
+			}
+		});
+	});
+});
+
+$(function(){
+	$("#btn").on("click",()=>{
+		let nome = $("#name").val();
+		let numero = $("#tel").val();
+		let posti = $("#num").val();
+		let giorno =  $("#data").val();
+		let orario = $("#ora").val();
+
+		$.ajax({
+			type:"POST",
+			method:"POST",
+			dataType:"json",
+			url:"/json/prenota",
+			data:{
+				token:$('meta[name="csrf-token"]').attr('content'),
+				nome:nome,
+				numero:numero,
+				posti:posti,
+				giorno:giorno,
+				orario:orario
+			},
+			error:(error)=>{
+				console.log("Errore : "+error);
+			},
+			success:(data)=>{
+				$.each(data,(item,i)=>{
+					$("#prenota_tavolo").find('form').trigger("reset");
+					$("#messageContainer").css({"display":"block"})
+					$("#message").html("<h3 style='text-align:center;'>" + i.mex + "</h3>");
+					console.log("token : " + i.token);
+				});
+			}
+		});
+	});
+});
