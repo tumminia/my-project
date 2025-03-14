@@ -15,7 +15,7 @@ class FileController < ApplicationController
 
     db.close
 
-     Rails.logger.info "📢 Dati dal database: #{@frigorifero.inspect}"
+    # Rails.logger.info "📢 Dati dal database: #{@frigorifero.inspect}"
   end
 
   def piatti
@@ -51,30 +51,52 @@ class FileController < ApplicationController
     db = SQLite3::Database.new(db_path)
     db.results_as_hash = true
 
-    token = params[:token]
+    token = params[:token] || 1234
     nome = params[:nome]
     numero = params[:numero]
     posti = params[:posti] || 2
-    giorno = params[:giorno] || "2025-03-11"
-    orario = params[:orario] || "12:00"
+    giorno = params[:giorno] || "2025-03-16"
+    orario = params[:orario] || "22:00"
+    mex = ""
 
-    if token==cookies[:'XSRF-TOKEN']
-      @messaggio = [ { "mex"=>"tavolo prenotato a nome: #{nome}", "token": "#{token}" } ]
+    x = controllo(posti, giorno, orario).to_i
+
+    if x<3
+      @tavolo = db.execute("INSERT INTO tavolo (nome, numero, posti, giorno, orario)
+      VALUES (?,?,?,?,?)",
+      [ nome, numero, posti, giorno, orario ])
+
+      mex = "tavolo prenotato a nome: #{nome}"
     else
-      @messaggio = [ { "mex"=>" token differente:", "token": "#{token}" } ]
+      mex = "tavolo da #{posti} posti per il giorno #{giorno} e orario #{orario} non sono disponibili: #{x}"
     end
 
-    @tavolo = db.execute("INSERT INTO tavolo (nome, numero, posti, giorno, orario)
-     VALUES
-     (?,?,?,?,?)",
-    [ nome, numero, posti, giorno, orario ])
-
+    @messaggio = [ { "mex"=>mex, "token": "#{token}" } ]
 
     db.close
 
     # puts token
     # redirect_to "/mex"
     render json: @messaggio
+  end
+
+  def controllo(w, x, y)
+    db_path  = Rails.root.join("db", "giacenza.db").to_s
+    db = SQLite3::Database.new(db_path)
+    db.results_as_hash = true
+
+    @value = db.execute("SELECT COUNT(posti) as prenotati FROM tavolo
+     WHERE posti=? AND giorno=? AND orario=?",
+     [ w, x, y ])
+
+     @value.each do |row|
+      x = row["prenotati"]
+      puts "Valore: #{x}"
+     end
+
+     db.close
+
+     x
   end
 
   def name
