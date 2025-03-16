@@ -142,8 +142,8 @@ footer div a:hover,footer div li:hover{
     position:static;
     top:250px;
     left:0;
-    right:15%;
-    width:85%;
+    right:30%;
+    width:70%;
     height:100%;
     display:inline-table;
     border-right:1px solid #293133;
@@ -158,13 +158,19 @@ footer div a:hover,footer div li:hover{
 
 /** Nav  Carrello **/
 #carrello{
+    font-size:22px;
     position:absolute;
     top:250px;
-    left:85%;
+    left:70%;
     right:0;
-    width:15%;
+    width:30%;
     height:100%;
     display:inline-table;
+    
+}
+
+#carrello li{
+    margin-left:30px;
 }
 
 .box{
