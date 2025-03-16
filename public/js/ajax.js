@@ -38,9 +38,9 @@ $(function(){
 					word = "'"+ x +"'";
 					
 					str =
-					'<div class="box" onclick="object.carrello('+word+');">' +
+					'<div class="box" onclick="object.carrello(this,'+word+');" id='+word+' data-id='+word+'>' +
 					'<div class="img">' +
-					'<img src="/img/pasta.webp">' +
+					'<img src="/img/pasta.webp" alt='+word+'>' +
 					'</div>' +
 					'<div>' +
 					x +
@@ -182,6 +182,7 @@ $(function(){
 					$("#prenota_tavolo").find('form').trigger("reset");
 					$("#messageContainer").css({"display":"block"})
 					$("#message").html("<h3 style='text-align:center;'>" + i.mex + "</h3>");
+					console.log("token : " + i.token);
 				});
 			}
 		});
