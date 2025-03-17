@@ -1,10 +1,42 @@
 
 <nav>
+
 <section id="piatti"></section>
 <section id="carrello">
 <h4>Carrello</h4>
-<ol></ol>
+<ol id="lista"></ol>
+<button class="btn btn-outline-success" id="btn-carrello">Invio</button>
 </section>
 
+<style>
+#btn-carrello{
+    position:relative;
+    left:10%;
+    width:80%;
+    heigth:50px;
+    padding:10px;
+}
+</style>
+
 <script src="/js/index.js"></script>
+<script>
+const button = document.getElementById("btn-carrello");
+
+button.addEventListener("click",()=>{
+    var data = [];
+    value = document.getElementById("lista");
+    const map = new Map();
+    data = $(value).find("li").text().split('; ');
+    
+    for(item in data) {
+        if(data[item]!=""){
+            map.set(item,data[item]);
+        }
+    }
+
+    console.log(value);
+    console.log(data);
+    console.log(map);
+})
+</script>
 </nav>
