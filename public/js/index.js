@@ -4,7 +4,7 @@ class App {
         let x = "";
         if (10 > counter) {
             var b = 1e18 * Math.random();
-            x = "<li id='" + b + "'>" + a.id + " <i onclick='object.clear(" + b + ");' class='bi bi-x text-danger'></i></li>",
+            x = "<li id='" + b + "'>" + a.id + "; <i onclick='object.clear(" + b + ");' class='bi bi-x text-danger'></i></li>",
             $("#carrello").find("ol").append(x),
             counter++
         } else 
