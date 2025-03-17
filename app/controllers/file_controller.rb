@@ -1,5 +1,6 @@
 require "sqlite3"
 require "json"
+require "securerandom"
 
 class FileController < ApplicationController
   def index
@@ -51,6 +52,7 @@ class FileController < ApplicationController
     db = SQLite3::Database.new(db_path)
     db.results_as_hash = true
 
+    id = SecureRandom.alphanumeric(10)
     token = params[:token] || 1234
     nome = params[:nome]
     numero = params[:numero]
@@ -62,9 +64,9 @@ class FileController < ApplicationController
     x = controllo(posti, giorno, orario).to_i
 
     if x<3
-      @tavolo = db.execute("INSERT INTO tavolo (nome, numero, posti, giorno, orario)
-      VALUES (?,?,?,?,?)",
-      [ nome, numero, posti, giorno, orario ])
+      @tavolo = db.execute("INSERT INTO tavolo (id, nome, numero, posti, giorno, orario)
+      VALUES (?,?,?,?,?,?)",
+      [ id, nome, numero, posti, giorno, orario ])
 
       mex = "tavolo prenotato a nome: #{nome}"
     else
