@@ -24,7 +24,7 @@ const button = document.getElementById("btn-carrello");
 
 button.addEventListener("click",()=>{
     var data = [];
-    value = document.getElementById("lista");
+    const value = document.getElementById("lista");
     const map = new Map();
     data = $(value).find("li").text().split('; ');
     
