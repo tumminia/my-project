@@ -1,7 +1,44 @@
 
 <nav>
 
-<section id="piatti"></section>
+<section style='height:500px;' id="piatti">
+<h4>Seleziona i piatti che preferisci <br/>(puoi fare massimo 10 ordini alla volta): </h4>
+
+<h5>
+<a data-bs-toggle="collapse" href="#antipasti" role="button" aria-expanded="false" aria-controls="Antipasti">Antipasti:</a>
+</h5>
+
+<div class="collapse" id="antipasti">
+<div class="card card-body"></div>
+</div>
+
+<h5>
+<a data-bs-toggle="collapse" href="#primo" role="button" aria-expanded="false" aria-controls="Primo">Primo:</a>
+</h5>
+
+<div class="collapse" id="primo">
+<div class="card card-body"></div>
+</div>
+
+<h5>
+<a data-bs-toggle="collapse" href="#secondo" role="button" aria-expanded="false" aria-controls="Secondo">Secondo:</a>
+</h5>
+
+<div class="collapse" id="secondo">
+<div class="card card-body"></div>
+</div>
+
+<h5>
+<a data-bs-toggle="collapse" href="#dolce" role="button" aria-expanded="false" aria-controls="Dolce">Dolce:</a>
+</h5>
+
+<div class="collapse" id="dolce">
+<div class="card card-body"></div>
+</div>
+
+
+</section>
+
 <section id="carrello">
 <h4>Carrello</h4>
 <ol id="lista"></ol>
@@ -9,13 +46,29 @@
 </section>
 
 <style>
-#btn-carrello{
+#btn-carrello {
     position:relative;
     left:10%;
     width:80%;
     heigth:50px;
     padding:10px;
 }
+
+#antipasti,
+#primo,
+#secondo,
+#dolce {
+    margin:50px;
+}
+
+#antipasti div,
+#primo div,
+#secondo div,
+#dolce div {
+    background:#FFF5EE;
+    display:inline-table;
+}
+
 </style>
 
 <script src="/js/index.js"></script>
