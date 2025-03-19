@@ -26,13 +26,13 @@ $(function(){
 				console.log("Errore : "+error);
 			},
 			success:(data)=>{
-				let tag = "<h4>Seleziona i piatti che preferisci:";
-				let antipasti = "<h5>Antipasti:</h5>";
-				let primo = "<h5>Primo:</h5>";
-				let secondo = "<h5>Secondo:</h5>";
-				let dolce = "<h5>Dolce:</h5>";
+				let tag = "<h4>Seleziona i piatti che preferisci <br/>(puoi fare massimo 10 ordini alla volta): </h4>";
+				
+				let antipasti = "";
+				let primo = "";
+				let secondo = "";
+				let dolce = "";
 
-				+" puoi fare massimo 10 ordini alla volta. </h4>";
 				var word = "";
 				const portata = (x)=> {
 					word = "'"+ x +"'";
@@ -72,11 +72,10 @@ $(function(){
 					}
 				});
 
-				$("#piatti").append(tag);
-				$("#piatti").append(antipasti);
-				$("#piatti").append(primo);
-				$("#piatti").append(secondo);
-				$("#piatti").append(dolce);
+				$("#antipasti").find("div").append(antipasti);
+				$("#primo").find("div").append(primo);
+				$("#secondo").find("div").append(secondo);
+				$("#dolce").find("div").append(dolce);
 			}
 		});
 	});
